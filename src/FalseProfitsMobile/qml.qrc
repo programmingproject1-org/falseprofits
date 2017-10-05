@@ -33,5 +33,6 @@
         <file>FpCandleChartWidget.qml</file>
         <file>BigChartPage.qml</file>
         <file>BigChartPageForm.ui.qml</file>
+        <file>SymbolNewsFeedPage.qml</file>
     </qresource>
 </RCC>
