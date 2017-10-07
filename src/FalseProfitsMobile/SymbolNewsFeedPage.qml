@@ -41,6 +41,7 @@ Page {
                 spacing: 8
 
                 Text {
+                    id: titleBox
                     text: title
                     width: delegate.width
                     wrapMode: Text.WordWrap
@@ -50,14 +51,17 @@ Page {
             }
 
             Text {
+                id: pubDateBox
                 width: delegate.width
-                font.pixelSize: 8
-                textFormat: Text.RichText
+                font.pixelSize: 10
+                //textFormat: Text.RichText
                 font.italic: true
-                text: pubDate
+                text: pubDate + " (<a href=\"" + link + "\">Link</a>)"
+                onLinkActivated: { Qt.openUrlExternally(link) }
                 }
 
             Text {
+                id: descriptionBox
                 width: parent.width
                 wrapMode: Text.WordWrap
                 font.pixelSize: 12
