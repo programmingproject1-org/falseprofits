@@ -22,51 +22,50 @@ Page {
     }
 
     /* Creating list from newsFeedModel specifications. */
-    ListView {
+    Column {
         id: listView
-        anchors.fill: parent
-        model: newsFeedModel
+        anchors.left: parent.left
+        anchors.right: parent.right
+
         clip: true
+        Repeater {
+            anchors.fill: parent
+            model: newsFeedModel
 
-        delegate: Column {
-            id: delegate
-            width: delegate.ListView.view.width - 30 // Width minus 15 points of padding on either side.
-            padding: 15
-            spacing: 8
-
-            Item { height: 8; width: delegate.width }
-
-            Row {
-                width: parent.width
+            delegate: Column {
+                id: delegate
+                width: parent.width - 30 // Width minus 15 points of padding on either side.
+                padding: 15
                 spacing: 8
+
+                Item { height: 8; width: delegate.width }
 
                 Text {
                     id: titleBox
                     text: title
                     width: delegate.width
                     wrapMode: Text.WordWrap
-                    font.pixelSize: 14
+                    font.pointSize: 12
                     font.bold: true
                 }
-            }
 
-            Text {
-                id: pubDateBox
-                width: delegate.width
-                font.pixelSize: 10
-                //textFormat: Text.RichText
-                font.italic: true
-                text: pubDate + " (<a href=\"" + link + "\">Link</a>)"
-                onLinkActivated: { Qt.openUrlExternally(link) }
+                Text {
+                    id: pubDateBox
+                    width: delegate.width
+                    font.pointSize: 11
+                    font.italic: true
+                    text: pubDate + " (<a href=\"" + link + "\">Link</a>)"
+                    onLinkActivated: { Qt.openUrlExternally(link) }
                 }
 
-            Text {
-                id: descriptionBox
-                width: parent.width
-                wrapMode: Text.WordWrap
-                font.pixelSize: 12
-                textFormat: Text.StyledText
-                text: description
+                Text {
+                    id: descriptionBox
+                    width: parent.width
+                    wrapMode: Text.WordWrap
+                    font.pointSize: 11
+                    textFormat: Text.StyledText
+                    text: description
+                }
             }
         }
     }
