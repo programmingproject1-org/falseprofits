@@ -34,7 +34,7 @@ Page {
 
             delegate: Column {
                 id: delegate
-                width: parent.width - 30 // Width minus 15 points of padding on either side.
+                width: parent.width - 30 // Width minus padding on either side.
                 padding: 15
                 spacing: 8
 
@@ -45,14 +45,14 @@ Page {
                     text: title
                     width: delegate.width
                     wrapMode: Text.WordWrap
-                    font.pointSize: 12
+                    font.pixelSize: 13
                     font.bold: true
                 }
 
                 Text {
                     id: pubDateBox
                     width: delegate.width
-                    font.pointSize: 11
+                    font.pixelSize: 12
                     font.italic: true
                     text: pubDate + " (<a href=\"" + link + "\">Link</a>)"
                     onLinkActivated: { Qt.openUrlExternally(link) }
@@ -62,7 +62,7 @@ Page {
                     id: descriptionBox
                     width: parent.width
                     wrapMode: Text.WordWrap
-                    font.pointSize: 11
+                    font.pixelSize: 12
                     textFormat: Text.StyledText
                     text: description
                 }
