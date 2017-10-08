@@ -40,7 +40,7 @@ Page {
 
                 Item { height: 8; width: delegate.width }
 
-                Text {
+                Label {
                     id: titleBox
                     text: title
                     width: delegate.width
@@ -49,7 +49,7 @@ Page {
                     font.bold: true
                 }
 
-                Text {
+                Label {
                     id: pubDateBox
                     width: delegate.width
                     font.pixelSize: 12
@@ -58,7 +58,7 @@ Page {
                     onLinkActivated: { Qt.openUrlExternally(link) }
                 }
 
-                Text {
+                Label {
                     id: descriptionBox
                     width: parent.width
                     wrapMode: Text.WordWrap
