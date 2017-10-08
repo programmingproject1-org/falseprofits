@@ -27,9 +27,13 @@ SOURCES += \
     fpsettings.cpp \
     fpcore.cpp \
     fpaccountslistmodel.cpp \
+    fpportfoliowrapper.cpp \
+    fppositionslistmodel.cpp \
     fpsymbolsearchresultsitemmodel.cpp \
     fpsymbolsearchwrapper.cpp \
     fptradingaccounts.cpp \
+    fptransactionslistmodel.cpp \
+    fptransactionswrapper.cpp \
     fpwatchlistlistmodel.cpp \
     fpwatchlists.cpp \
     fpwatchlistslistmodel.cpp \
@@ -44,10 +48,14 @@ HEADERS += \
     fpcore.h \
     fpdeclarativetypes.h \
     fpcore_interfaces.h \
+    fpportfoliowrapper.h \
+    fppositionslistmodel.h \
     fpaccountslistmodel.h \
     fpsymbolsearchresultsitemmodel.h \
     fpsymbolsearchwrapper.h \
     fptradingaccounts.h \
+    fptransactionslistmodel.h \
+    fptransactionswrapper.h \
     fpwatchlistlistmodel.h \
     fpwatchlists.h \
     fpwatchlistslistmodel.h \

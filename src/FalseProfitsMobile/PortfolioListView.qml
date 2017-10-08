@@ -11,7 +11,7 @@ ListView {
     currentIndex: -1
 
     signal symbolClicked(string symbol)
-    signal triggerRemoveSymbol(string symbol)
+    signal marketOrderTriggered(string symbol, int quantity)
 
     delegate: SwipeDelegate {
         id: swipeDelegate
@@ -38,9 +38,12 @@ ListView {
             }
         }
 
-        swipe.right: Item {
-            id: deleteLabel
-            width: 60
+        swipe.right: Label {
+            id: closePositionLabel
+            text: qsTr("Close")
+            color: "white"
+            verticalAlignment: Label.AlignVCenter
+            padding: 12
             height: parent.height
             anchors.right: parent.right
 
@@ -48,27 +51,18 @@ ListView {
             // MouseArea to background for now
             // SwipeDelegate.onClicked: listView.model.remove(index)
 
-            Rectangle {
-                anchors.fill: parent
+            background: Rectangle {
                 // TODO(seamus): Use FpStyle for color
-                color: deleteLabel.SwipeDelegate.pressed ? Qt.darker("tomato", 1.1) : "tomato"
+                color: closePositionLabel.SwipeDelegate.pressed ? Qt.darker("tomato", 1.1) :
+                                                                  "tomato"
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        // Optimistic removal
                         var symbol = listView.model.getSymbolForRow(index)
-                        listView.model.remove(index)
-                        triggerRemoveSymbol(symbol)
+                        var qty = listView.model.getQuantityForRow(index)
+                        marketOrderTriggered(symbol, qty)
                     }
                 }
-            }
-
-            Image {
-                anchors.fill: parent
-                fillMode: Image.Pad
-                horizontalAlignment: Image.AlignHCenter
-                verticalAlignment: Image.AlignVCenter
-                source: "qrc:/images/" + FpStyle.iconAccent + "/delete_forever.png"
             }
         }
 
@@ -95,35 +89,34 @@ ListView {
                 }
 
                 Label {
-                    id: directionLabel
-                    text: model.direction === 1 ? '▲' : model.direction === -1 ? '▼' : '='
-                    // TODO(seamus): Use FpStyle for color
-                    color: model.direction === 1 ? "#0b893e" : model.direction
-                                                   === -1 ? "#bf1722" : "black"
-                    font.pixelSize: 18
+                    id: lastPriceLabel
+                    text: model.lastPrice ? qsTr("Last: %1").arg(model.lastPrice) : ""
+                    font.pixelSize: 13
                 }
 
                 Label {
-                    text: model.lastPrice ? model.lastPrice : ""
+                    text: model.marketValue.toFixed(0)
                     font.pixelSize: 20
                     Layout.preferredWidth: 100
                     horizontalAlignment: Text.AlignRight
                 }
 
                 Label {
-                    text: model.name
+                    text: qsTr("%1 shares @ %2 = %3").arg(model.quantity).arg(
+                              model.averagePrice).arg(model.cost)
                     font.pixelSize: 12
                     Layout.columnSpan: 2
                     elide: Text.ElideRight
-                    Layout.maximumWidth: Math.min(symbolLabel.width + directionLabel.width -
-                                         mainGrid.columnSpacing,
-                                                  listView.width - changeLabel.width -
+                    Layout.maximumWidth: Math.min(symbolLabel.width + lastPriceLabel.width -
+                                                  mainGrid.columnSpacing,
+                                                  listView.width - profitLossLabel.width -
                                                   mainGrid.columnSpacing)
                 }
 
                 Label {
-                    id: changeLabel
-                    text: qsTr("%1 (%2%)").arg(model.change).arg(model.changePercent)
+                    id: profitLossLabel
+                    text: qsTr("PnL: %1 (%2%)").arg(model.profitLoss.toFixed(0)).arg(
+                              model.profitLossPercent.toFixed(1))
                     // TODO(seamus): Use FpStyle for color
                     color: model.direction === 1 ? "#0b893e" : model.direction
                                                    === -1 ? "#bf1722" : "black"

@@ -202,6 +202,63 @@ GetCommissionsResponse *FpCore::getCommissions(Fpx::CommissionSide side)
     return resp;
 }
 
+GetPositionsResponse *FpCore::getPositions(const QString &accountId)
+{
+    QPointer<GetPositionsResponse> resp(new GetPositionsResponse);
+
+    auto rep = m_client->getPositions(accountId);
+    connect(rep, &bsmi::INetworkReply::finished, this, [resp, rep, this]() {
+        if (!resp) {
+            rep->deleteLater();
+            return;
+        }
+        auto httpStatusCode = readHttpStatusCode(rep);
+        resp->setHttpStatusCode(httpStatusCode);
+        if (rep->error() == QNetworkReply::NoError) {
+            resp->setPayload(rep->readAll());
+        } else {
+            resp->setErrorMessage(readErrorMessage(resp, rep, httpStatusCode));
+        }
+
+        rep->deleteLater();
+        resp->setFinished();
+    });
+
+    return resp;
+}
+
+GetTransactionsResponse *FpCore::getTransactions(const TransactionsQuery &query)
+{
+    QPointer<GetTransactionsResponse> resp(new GetTransactionsResponse);
+
+    bsmi::IInvestorAPIClient::GetTransactionsArgs v;
+    v.accountId = query.accountId();
+    v.startDate = query.startDate();
+    v.endDate = query.endDate();
+    v.pageNumber = query.pageNumber();
+    v.pageSize = query.pageSize();
+
+    auto rep = m_client->getTransactions(v);
+    connect(rep, &bsmi::INetworkReply::finished, this, [resp, rep, this]() {
+        if (!resp) {
+            rep->deleteLater();
+            return;
+        }
+        auto httpStatusCode = readHttpStatusCode(rep);
+        resp->setHttpStatusCode(httpStatusCode);
+        if (rep->error() == QNetworkReply::NoError) {
+            resp->setPayload(rep->readAll());
+        } else {
+            resp->setErrorMessage(readErrorMessage(resp, rep, httpStatusCode));
+        }
+
+        rep->deleteLater();
+        resp->setFinished();
+    });
+
+    return resp;
+}
+
 GetQuotesResponse *FpCore::getQuotes(const QStringList &symbols)
 {
     QPointer<GetQuotesResponse> resp(new GetQuotesResponse);
@@ -366,6 +423,8 @@ SendOrderResponse *FpCore::sendOrder(const QString &accountId, const OrderParams
         resp->setHttpStatusCode(httpStatusCode);
         if (rep->error() == QNetworkReply::NoError) {
             resp->setPayload(rep->readAll());
+
+            QMetaObject::invokeMethod(this, "positionsChanged", Qt::QueuedConnection);
         } else {
             resp->setErrorMessage(readErrorMessage(resp, rep, httpStatusCode));
         }
