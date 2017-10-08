@@ -52,20 +52,22 @@ Page {
 
                 Label {
                     id: pubDateBox
+                    text: pubDate + " (<a href=\"" + link + "\">Link</a>)"
                     width: delegate.width
+                    wrapMode: Text.WordWrap
                     font.pixelSize: 12
                     font.italic: true
-                    text: pubDate + " (<a href=\"" + link + "\">Link</a>)"
+
                     onLinkActivated: { Qt.openUrlExternally(link) }
                 }
 
                 Label {
                     id: descriptionBox
+                    text: description
                     width: parent.width
                     wrapMode: Text.WordWrap
                     font.pixelSize: 12
                     textFormat: Text.StyledText
-                    text: description
                 }
             }
         }
