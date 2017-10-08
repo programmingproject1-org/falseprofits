@@ -15,13 +15,14 @@ Page {
         query: "/rss/channel/item"
 
         XmlRole { name: "title"; query: "title/string()" }
-        // Remove any links from the description
-        XmlRole { name: "description"; query: "fn:replace(description/string(), '\&lt;a href=.*\/a\&gt;', '')" }
         XmlRole { name: "link"; query: "link/string()" }
         XmlRole { name: "pubDate"; query: "pubDate/string()" } // Publish date of article.
+
+        // Removing any links from the description
+        XmlRole { name: "description"; query: "fn:replace(description/string(), '\&lt;a href=.*\/a\&gt;', '')" }
     }
 
-    /* Creating list from newsFeedModel specifications. */
+    /* Creating list from newsFeedModel specifications, using Repeater. */
     Column {
         id: listView
         anchors.left: parent.left
@@ -34,8 +35,8 @@ Page {
 
             delegate: Column {
                 id: delegate
-                width: parent.width - 30 // Width minus padding on either side.
-                padding: 15
+                width: parent.width - 30 // Width minus padding for either side, creates right-side padding
+                padding: 15 // left side padding.
                 spacing: 8
 
                 Item { height: 8; width: delegate.width }
