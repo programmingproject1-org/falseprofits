@@ -14,9 +14,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
-    fpchartdatawrapper.cpp
+    fpchartdatawrapper.cpp \
+    fpchartdatawrapper.cpp \
+    main.cpp
 
 HEADERS += \
+    fpchartdatawrapper.h \
     fpchartdatawrapper.h
 
 RESOURCES += \
@@ -64,3 +67,6 @@ else:win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../Inve
 else:win32:!win32-g++:CONFIG(release, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../InvestorAPIClient/release/InvestorAPIClient.lib
 else:win32:!win32-g++:CONFIG(debug, debug|release): PRE_TARGETDEPS += $$OUT_PWD/../InvestorAPIClient/debug/InvestorAPIClient.lib
 else:unix: PRE_TARGETDEPS += $$OUT_PWD/../InvestorAPIClient/libInvestorAPIClient.a
+
+DISTFILES += \
+    3rdparty/qmldir

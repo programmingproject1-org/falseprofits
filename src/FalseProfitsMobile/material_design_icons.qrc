@@ -88,5 +88,13 @@
         <file>images/white/star_border@2.png</file>
         <file>images/white/star_border@3.png</file>
         <file>images/white/star_border@4.png</file>
+        <file>images/black/arrow_forward.png</file>
+        <file>images/black/arrow_forward@2x.png</file>
+        <file>images/black/arrow_forward@3x.png</file>
+        <file>images/black/arrow_forward@4x.png</file>
+        <file>images/white/arrow_forward.png</file>
+        <file>images/white/arrow_forward@2x.png</file>
+        <file>images/white/arrow_forward@3x.png</file>
+        <file>images/white/arrow_forward@4x.png</file>
     </qresource>
 </RCC>

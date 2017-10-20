@@ -3,6 +3,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 
 import com.example.fpx 1.0
+//import "DatePicker"
 
 TransactionsPageForm {
     property int busyIndicatorVisibility: 0
@@ -128,28 +129,37 @@ TransactionsPageForm {
                 text: qsTr("First Date")
             }
 
-            TextField {
+//            TextField {
+//                id: startDateInput
+//                placeholderText: "yyyy-M-d"
+//                selectByMouse: true
+//                Layout.fillWidth: true
+//            }
+
+            DatePicker {
                 id: startDateInput
-                placeholderText: "yyyy-M-d"
-                selectByMouse: true
-                Layout.fillWidth: true
             }
 
             Label {
                 text: qsTr("Last Date")
             }
 
-            TextField {
+            DatePicker {
                 id: endDateInput
-                placeholderText: "yyyy-M-d"
-                selectByMouse: true
-                Layout.fillWidth: true
             }
+
+//            TextField {
+//                id: endDateInput
+//                placeholderText: "yyyy-M-d"
+//                selectByMouse: true
+//                Layout.fillWidth: true
+//            }
         }
 
         onAccepted: {
-            var start = utilityFunctions.makeDateFromString(startDateInput.text, "yyyy-M-d")
-            var end = utilityFunctions.makeDateFromString(endDateInput.text, "yyyy-M-d")
+            // new Date()
+            var start = startDateInput.calendar.selectedDate
+            var end = endDateInput.calendar.selectedDate
             transactionsWrapper.setDateRangeLocal(start, end)
             refreshTransactions()
         }
