@@ -66,12 +66,14 @@ Item {
             inputMask: "99/99/9999"
             Layout.fillWidth: true
             anchors.verticalCenter: parent.verticalCenter
+
             onEditingFinished: {
                 var newDate = new Date();
                 newDate.setDate(text.substr(0, 2));
                 newDate.setMonth(text.substr(3, 2) - 1);
                 newDate.setFullYear(text.substr(6, 4));
                 calendar.selectedDate = newDate;
+                calendar.visible = false
             }
 
             MouseArea {
@@ -81,33 +83,32 @@ Item {
         }
     }
 
-    Rectangle {
-        id: focusShade
-        //parent: window.contentItem
-        anchors.fill: parent
-        opacity: calendar.visible ? 1 : 0
-        color: "black"
+//    Rectangle {
+//        id: focusShade
+//        //parent: window.contentItem
+//        anchors.fill: parent
+//        opacity: calendar.visible ? 1 : 0
+//        color: "black"
 
-        Behavior on opacity {
-            NumberAnimation {
-            }
-        }
+//        Behavior on opacity {
+//            NumberAnimation {
+//            }
+//        }
 
-        MouseArea {
-            anchors.fill: parent
-            enabled: parent.opacity > 0
-            onClicked: calendar.visible = false
-        }
-    }
+//        MouseArea {
+//            anchors.fill: parent
+//            enabled: parent.opacity > 0
+//            onClicked: calendar.visible = false
+//        }
+//    }
 
     Calendar {
         id: calendar
-        //parent: window.contentItem
         visible: false
-        z: focusShade.z + 1
-        x: (parent.parent.width - width) / 2
-        y: (parent.parent.height - height) / 2
-        width: 320 * 0.8 //parent.width * 0.8
+        // x: (parent.parent.width - width) / 2
+        y: parent.parent.parent.y + parent.parent.parent.height + 20
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: 256 //parent.width * 0.8
         height: width
         //anchors.centerIn: parent
 
@@ -115,10 +116,11 @@ Item {
         onClicked: visible = false
         Keys.onBackPressed: {
             event.accepted = true;
-            visible = false;
+            visible = false
         }
 
         style: TouchCalendarStyle {
         }
     }
 }
+

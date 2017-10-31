@@ -113,14 +113,19 @@ TransactionsPageForm {
 
     Dialog {
         id: transactionQueryPopup
-        modal: true
         focus: true
         standardButtons: Dialog.Ok | Dialog.Cancel
+        modal: visible
 
-        x: (parent.width - width) / 2
-        y: (parent.height - height) / 2
+        x: (parent.width - width) / 2 //parent.width - width - 5
+        y: 5 //(parent.height - height) / 2
 
         title: qsTr("Filter Transactions")
+
+        onAboutToHide: {
+            startDateInput.calendar.visible = false;
+            endDateInput.calendar.visible = false
+        }
 
         GridLayout {
             columns: 2
@@ -138,6 +143,17 @@ TransactionsPageForm {
 
             DatePicker {
                 id: startDateInput
+
+                TextField {
+                    id: dateText
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            startDateInput.calendar.visible = true
+                            endDateInput.calendar.visible = false
+                        }
+                    }
+                }
             }
 
             Label {
@@ -146,6 +162,12 @@ TransactionsPageForm {
 
             DatePicker {
                 id: endDateInput
+//                    MouseArea {
+//                        anchors.fill: parent
+//                        onClicked: {
+//                            startDateInput.calendar.visible = false
+//                        }
+//                    }
             }
 
 //            TextField {
