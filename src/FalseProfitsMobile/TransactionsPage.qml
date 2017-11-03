@@ -1,5 +1,6 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.2
+import QtQuick.Controls 1.4 as OldControl
 import QtQuick.Layouts 1.3
 
 import com.example.fpx 1.0
@@ -123,59 +124,137 @@ TransactionsPageForm {
         title: qsTr("Filter Transactions")
 
         onAboutToHide: {
-            startDateInput.calendar.visible = false;
-            endDateInput.calendar.visible = false
+            startCalendar.visible = false;
+            endCalendar.visible = false
         }
 
-        GridLayout {
-            columns: 2
+        ColumnLayout {
 
             Label {
-                text: qsTr("First Date")
+                text: "Select, then choose from the calendar."
             }
 
-//            TextField {
-//                id: startDateInput
-//                placeholderText: "yyyy-M-d"
-//                selectByMouse: true
-//                Layout.fillWidth: true
-//            }
-
-            DatePicker {
-                id: startDateInput
-
-                TextField {
-                    id: dateText
+            Row {
+                Label {
+                    text: qsTr("First Date")
+                    rightPadding: 10
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            startDateInput.calendar.visible = true
-                            endDateInput.calendar.visible = false
+                            startCalendar.visible = true;
+                            endCalendar.visible = false
+                        }
+
+                    }
+                }
+
+
+                OldControl.TextField {
+                    id: startdateText
+                    text: Qt.formatDate(startCalendar.selectedDate, "dd/MM/yyyy")
+                    inputMask: "99/99/9999"
+
+                    onEditingFinished: {
+                        var newDate = new Date();
+                        newDate.setDate(text.substr(0, 2));
+                        newDate.setMonth(text.substr(3, 2) - 1);
+                        newDate.setFullYear(text.substr(6, 4));
+                        startCalendar.selectedDate = newDate;
+                        startCalendar.visible = false
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            startCalendar.visible = true;
+                            endCalendar.visible = false
+                        }
+
+                    }
+                }
+            }
+
+            Row
+            {
+                Label {
+                    text: qsTr("Last Date")
+                    rightPadding: 10
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            startCalendar.visible = false;
+                            endCalendar.visible = true
+                        }
+
+                    }
+                }
+
+                TextField {
+                    id: endDateText
+                    text: Qt.formatDate(endCalendar.selectedDate, "dd/MM/yyyy")
+                    inputMask: "99/99/9999"
+
+                    onEditingFinished: {
+                        var newDate = new Date();
+                        newDate.setDate(text.substr(0, 2));
+                        newDate.setMonth(text.substr(3, 2) - 1);
+                        newDate.setFullYear(text.substr(6, 4));
+                        endCalendar.selectedDate = newDate;
+                        endCalendar.visible = false
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            startCalendar.visible = false;
+                            endCalendar.visible = true
                         }
                     }
                 }
             }
 
-            Label {
-                text: qsTr("Last Date")
-            }
+            Row{
+                OldControl.Calendar {
+                    id: startCalendar
+                    visible: false
+                    //                // x: (parent.parent.width - width) / 2
+                    //                y: parent.parent.parent.y + parent.parent.parent.height + 20
+                    //                anchors.horizontalCenter: parent.horizontalCenter
+                    width: 256 //parent.width * 0.8
+                    height: width
+                    //anchors.centerIn: parent
 
-            DatePicker {
-                id: endDateInput
-//                    MouseArea {
-//                        anchors.fill: parent
-//                        onClicked: {
-//                            startDateInput.calendar.visible = false
-//                        }
-//                    }
-            }
+                    focus: visible
+                    onClicked: visible = false
+                    Keys.onBackPressed: {
+                        event.accepted = true;
+                        visible = false
+                    }
 
-//            TextField {
-//                id: endDateInput
-//                placeholderText: "yyyy-M-d"
-//                selectByMouse: true
-//                Layout.fillWidth: true
-//            }
+                    style: FpCalendarStyle {
+                    }
+                }
+                OldControl.Calendar {
+                    id: endCalendar
+                    visible: false
+                    //                // x: (parent.parent.width - width) / 2
+                    //                y: parent.parent.parent.y + parent.parent.parent.height + 20
+                    //                anchors.horizontalCenter: parent.horizontalCenter
+                    width: 256 //parent.width * 0.8
+                    height: width
+                    //anchors.centerIn: parent
+
+                    focus: visible
+                    onClicked: visible = false
+                    Keys.onBackPressed: {
+                        event.accepted = true;
+                        visible = false
+                    }
+
+                    style: FpCalendarStyle {
+                    }
+                }
+            }
         }
 
         onAccepted: {

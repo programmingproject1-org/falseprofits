@@ -49,6 +49,6 @@
         <file>ExtraMaterial.qml</file>
         <file>MaterialComponents/HorizontalDivider.qml</file>
         <file>DatePicker.qml</file>
-        <file>TouchCalendarStyle.qml</file>
+        <file>FpCalendarStyle.qml</file>
     </qresource>
 </RCC>
